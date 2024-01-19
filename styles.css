@@ -20,7 +20,6 @@ h1 {
   flex-direction: column;
   width: 350px;
   height: 475px;
-  border: 1px solid;
   border-radius: 20px;
   background-color: #424c55;
 }
