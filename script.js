@@ -1,5 +1,5 @@
 let INPUT1 = "0";
-let INPUT2 = "0";
+let INPUT2 = "";
 let CURRENT_INPUT = 1; // default to input 1
 let OPERATOR = undefined;
 let SWITCH = true;
@@ -23,13 +23,13 @@ function divide(num1, num2) {
 
 function operate(operator, num1, num2) {
   if (operator === "add") {
-    return add(num1, num2);
+    return add(+num1, +num2);
   } else if (operator === "subtract") {
-    return subtract(num1, num2);
+    return subtract(+num1, +num2);
   } else if (operator === "multiply") {
-    return multiply(num1, num2);
+    return multiply(+num1, +num2);
   } else if (operator === "divide") {
-    return divide(num1, num2);
+    return divide(+num1, +num2);
   }
 }
 
@@ -37,10 +37,18 @@ function setButtons() {
   /* Whenever a number is pressed change the display text 
   and update the INPUT1 variable */
   const btn_0 = document.querySelector("#zero");
-  // Only update if another number has already been input
+  // For zero, only update if another number has already been input
   btn_0.addEventListener("click", () => {
-    if (INPUT1 !== "0") {
-      updateInput(CURRENT_INPUT, "0");
+    if (CURRENT_INPUT === 1) {
+      if (INPUT1 !== "0") {
+        updateInput(CURRENT_INPUT, "0");
+      }
+    }
+    // Only allow one zero to be input if the initial input is zero
+    if (CURRENT_INPUT === 2) {
+      if (INPUT2 !== "0") {
+        updateInput(CURRENT_INPUT, "0");
+      }
     }
   });
   const btn_1 = document.querySelector("#one");
@@ -90,10 +98,11 @@ function updateInput(inputNum, digitStr) {
       INPUT2 += digitStr;
     }
   }
-  console.log(INPUT1 + " " + INPUT2);
 }
 
 function updateOperator(desiredOperation) {
+  /* If an operator has already been selected, 
+  calculate the previous operation first */
   if (OPERATOR !== undefined) {
     calculate();
   }
@@ -111,7 +120,8 @@ function updateOperator(desiredOperation) {
     DISPLAY_TEXT.textContent += " ÷ ";
   }
 
-  // Switch input variable
+  /* Switch input variable after only first operator is input.
+  For cases with more than one operator, INPUT1 stores the result*/
   if (SWITCH === true) {
     if (CURRENT_INPUT === 1) {
       CURRENT_INPUT = 2;
@@ -122,10 +132,13 @@ function updateOperator(desiredOperation) {
 }
 
 function calculate() {
+  // INPUT1 now stores the result.
   INPUT1 = operate(OPERATOR, INPUT1, INPUT2);
   DISPLAY_TEXT.textContent = INPUT1;
+  // Reset INPUT2, OPERATOR and change SWITCH variables
   INPUT2 = "0";
   OPERATOR = undefined;
   SWITCH = false;
 }
+
 setButtons();
