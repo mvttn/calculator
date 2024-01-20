@@ -1,7 +1,8 @@
 let INPUT1 = "0";
 let INPUT2 = "0";
 let CURRENT_INPUT = 1; // default to input 1
-let OPERATOR;
+let OPERATOR = undefined;
+let SWITCH = true;
 const DISPLAY_TEXT = document.querySelector("#displayText");
 
 function add(num1, num2) {
@@ -93,8 +94,8 @@ function updateInput(inputNum, digitStr) {
 }
 
 function updateOperator(desiredOperation) {
-  if (OPERATOR) {
-    DISPLAY_TEXT.textContent = operate(OPERATOR, INPUT1, INPUT2);
+  if (OPERATOR !== undefined) {
+    calculate();
   }
   if (desiredOperation === "add") {
     OPERATOR = "add";
@@ -111,11 +112,20 @@ function updateOperator(desiredOperation) {
   }
 
   // Switch input variable
-  if (CURRENT_INPUT === 1) {
-    CURRENT_INPUT = 2;
-  } else if (CURRENT_INPUT === 2) {
-    CURRENT_INPUT = 1;
+  if (SWITCH === true) {
+    if (CURRENT_INPUT === 1) {
+      CURRENT_INPUT = 2;
+    } else if (CURRENT_INPUT === 2) {
+      CURRENT_INPUT = 1;
+    }
   }
 }
 
+function calculate() {
+  INPUT1 = operate(OPERATOR, INPUT1, INPUT2);
+  DISPLAY_TEXT.textContent = INPUT1;
+  INPUT2 = "0";
+  OPERATOR = undefined;
+  SWITCH = false;
+}
 setButtons();
