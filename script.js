@@ -87,6 +87,8 @@ function setButtons() {
   equals_btn.addEventListener("click", () => calculate());
   const delete_btn = document.querySelector("#delete");
   delete_btn.addEventListener("click", () => deleteDigit());
+  const allClear_btn = document.querySelector("#clear");
+  allClear_btn.addEventListener("click", () => clear());
 }
 
 function updateInput(inputNum, digitStr) {
@@ -165,5 +167,13 @@ function deleteDigit() {
   }
 }
 
-
+function clear() {
+  INPUT1 = "0";
+  INPUT2 = "";
+  CURRENT_INPUT = 1;
+  OPERATOR = undefined;
+  SWITCH_INPUT = true;
+  ALLOW_INPUT = true;
+  DISPLAY_TEXT.textContent = "0";
+}
 setButtons();
