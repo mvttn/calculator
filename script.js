@@ -7,7 +7,10 @@ Used with CURRENT_INPUT variable*/
 let SWITCH_INPUT = true;
 /* Unallow input after clicking equals, allow again after an 
 operator is selected */
-let ALLOW_INPUT = true;
+let ALLOW_DIGIT_INPUT = true;
+/* Unallow input after clicking an operator, allow again after an 
+a digit is input */
+let ALLOW_OPERATOR_INPUT = true;
 
 const DISPLAY_TEXT = document.querySelector("#displayText");
 
@@ -24,7 +27,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-  return num1 / num2;
+  return num2 === 0 ? "NaN" : num1 / num2;
 }
 
 function operate(operator, num1, num2) {
@@ -95,7 +98,7 @@ function setButtons() {
 }
 
 function updateInput(inputNum, digitStr) {
-  if (!ALLOW_INPUT) return;
+  if (!ALLOW_DIGIT_INPUT) return;
   if (inputNum === 1) {
     if (INPUT1 === "0") {
       DISPLAY_TEXT.textContent = digitStr;
@@ -112,6 +115,7 @@ function updateInput(inputNum, digitStr) {
       INPUT2 += digitStr;
     }
   }
+  ALLOW_OPERATOR_INPUT = true;
   console.log(INPUT1 + " " + INPUT2);
 }
 
@@ -121,21 +125,24 @@ function updateOperator(desiredOperation) {
   if (OPERATOR !== undefined) {
     calculate();
   }
-
-  ALLOW_INPUT = true;
-  if (desiredOperation === "add") {
-    OPERATOR = "add";
-    DISPLAY_TEXT.textContent += " + ";
-  } else if (desiredOperation === "subtract") {
-    OPERATOR = "subtract";
-    DISPLAY_TEXT.textContent += " - ";
-  } else if (desiredOperation === "multiply") {
-    OPERATOR = "multiply";
-    DISPLAY_TEXT.textContent += " × ";
-  } else if (desiredOperation === "divide") {
-    OPERATOR = "divide";
-    DISPLAY_TEXT.textContent += " ÷ ";
+  if (ALLOW_OPERATOR_INPUT === true) {
+    if (desiredOperation === "add") {
+      OPERATOR = "add";
+      DISPLAY_TEXT.textContent += " + ";
+    } else if (desiredOperation === "subtract") {
+      OPERATOR = "subtract";
+      DISPLAY_TEXT.textContent += " - ";
+    } else if (desiredOperation === "multiply") {
+      OPERATOR = "multiply";
+      DISPLAY_TEXT.textContent += " × ";
+    } else if (desiredOperation === "divide") {
+      OPERATOR = "divide";
+      DISPLAY_TEXT.textContent += " ÷ ";
+    }
+    ALLOW_OPERATOR_INPUT = false;
   }
+
+  ALLOW_DIGIT_INPUT = true;
 
   /* Switch input variable after only first operator is input.
   For cases with more than one operator, INPUT1 stores the result*/
@@ -151,14 +158,15 @@ function updateOperator(desiredOperation) {
 function calculate() {
   // Only run if INPUT2 exists
   if (!INPUT2) return;
+
   // INPUT1 now stores the result.
   INPUT1 = operate(OPERATOR, INPUT1, INPUT2);
   DISPLAY_TEXT.textContent = INPUT1;
-  // Reset INPUT2, OPERATOR and change SWITCH_INPUT, ALLOW_INPUT to false
+  // Reset INPUT2, OPERATOR and change SWITCH_INPUT, ALLOW_DIGIT_INPUT to false
   INPUT2 = "0";
   OPERATOR = undefined;
   SWITCH_INPUT = false;
-  ALLOW_INPUT = false;
+  ALLOW_DIGIT_INPUT = false;
 }
 
 function deleteDigit() {
@@ -180,7 +188,7 @@ function clear() {
   CURRENT_INPUT = 1;
   OPERATOR = undefined;
   SWITCH_INPUT = true;
-  ALLOW_INPUT = true;
+  ALLOW_DIGIT_INPUT = true;
   DISPLAY_TEXT.textContent = "0";
 }
 
