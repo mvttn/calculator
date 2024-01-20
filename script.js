@@ -85,6 +85,8 @@ function setButtons() {
   divide_btn.addEventListener("click", () => updateOperator("divide"));
   const equals_btn = document.querySelector("#equals");
   equals_btn.addEventListener("click", () => calculate());
+  const delete_btn = document.querySelector("#delete");
+  delete_btn.addEventListener("click", () => deleteDigit());
 }
 
 function updateInput(inputNum, digitStr) {
@@ -151,5 +153,17 @@ function calculate() {
   SWITCH_INPUT = false;
   ALLOW_INPUT = false;
 }
+
+function deleteDigit() {
+  let currentContent = DISPLAY_TEXT.textContent;
+  DISPLAY_TEXT.textContent = currentContent.slice(0, -1);
+  if (CURRENT_INPUT === 1) {
+    INPUT1 = INPUT1.slice(0, -1);
+  }
+  if (CURRENT_INPUT === 2) {
+    INPUT2 = INPUT2.slice(0, -1);
+  }
+}
+
 
 setButtons();
