@@ -146,10 +146,12 @@ function updateOperator(desiredOperation) {
 }
 
 function calculate() {
+  // Only run if INPUT2 exists
+  if (!INPUT2) return;
   // INPUT1 now stores the result.
   INPUT1 = operate(OPERATOR, INPUT1, INPUT2);
   DISPLAY_TEXT.textContent = INPUT1;
-  // Reset INPUT2, OPERATOR and change SWITCH_INPUT variables
+  // Reset INPUT2, OPERATOR and change SWITCH_INPUT, ALLOW_INPUT to false
   INPUT2 = "0";
   OPERATOR = undefined;
   SWITCH_INPUT = false;
@@ -157,6 +159,7 @@ function calculate() {
 }
 
 function deleteDigit() {
+  // Remove 1 digit at a time using slice method
   let currentContent = DISPLAY_TEXT.textContent;
   DISPLAY_TEXT.textContent = currentContent.slice(0, -1);
   if (CURRENT_INPUT === 1) {
@@ -168,6 +171,7 @@ function deleteDigit() {
 }
 
 function clear() {
+  // Reset to initial values
   INPUT1 = "0";
   INPUT2 = "";
   CURRENT_INPUT = 1;
@@ -176,4 +180,7 @@ function clear() {
   ALLOW_INPUT = true;
   DISPLAY_TEXT.textContent = "0";
 }
-setButtons();
+
+window.onload = () => {
+  setButtons();
+};
