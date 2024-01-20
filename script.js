@@ -8,6 +8,7 @@ let SWITCH_INPUT = true;
 /* Unallow input after clicking equals, allow again after an 
 operator is selected */
 let ALLOW_INPUT = true;
+
 const DISPLAY_TEXT = document.querySelector("#displayText");
 
 function add(num1, num2) {
@@ -89,6 +90,8 @@ function setButtons() {
   delete_btn.addEventListener("click", () => deleteDigit());
   const allClear_btn = document.querySelector("#clear");
   allClear_btn.addEventListener("click", () => clear());
+  const decimal_btn = document.querySelector("#decimal");
+  decimal_btn.addEventListener("click", () => addDecimal());
 }
 
 function updateInput(inputNum, digitStr) {
@@ -179,6 +182,17 @@ function clear() {
   SWITCH_INPUT = true;
   ALLOW_INPUT = true;
   DISPLAY_TEXT.textContent = "0";
+}
+
+function addDecimal() {
+  if (CURRENT_INPUT === 1 && !INPUT1.includes(".")) {
+    INPUT1 += ".";
+    DISPLAY_TEXT.textContent += ".";
+  }
+  if (CURRENT_INPUT === 2 && !INPUT2.includes(".")) {
+    INPUT2 += ".";
+    DISPLAY_TEXT.textContent += ".";
+  }
 }
 
 window.onload = () => {
