@@ -122,7 +122,7 @@ function updateInput(inputNum, digitStr) {
 function updateOperator(desiredOperation) {
   /* If an operator has already been selected, 
   calculate the previous operation first */
-  if (OPERATOR !== undefined) {
+  if (OPERATOR !== undefined && ALLOW_OPERATOR_INPUT) {
     calculate();
   }
   if (ALLOW_OPERATOR_INPUT === true) {
@@ -140,9 +140,8 @@ function updateOperator(desiredOperation) {
       DISPLAY_TEXT.textContent += " ÷ ";
     }
     ALLOW_OPERATOR_INPUT = false;
+    ALLOW_DIGIT_INPUT = true;
   }
-
-  ALLOW_DIGIT_INPUT = true;
 
   /* Switch input variable after only first operator is input.
   For cases with more than one operator, INPUT1 stores the result*/
