@@ -162,7 +162,7 @@ function calculate() {
   INPUT1 = operate(OPERATOR, INPUT1, INPUT2);
   DISPLAY_TEXT.textContent = INPUT1;
   // Reset INPUT2, OPERATOR and change SWITCH_INPUT, ALLOW_DIGIT_INPUT to false
-  INPUT2 = "0";
+  INPUT2 = "";
   OPERATOR = undefined;
   SWITCH_INPUT = false;
   ALLOW_DIGIT_INPUT = false;
