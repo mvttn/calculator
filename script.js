@@ -169,6 +169,7 @@ function calculate() {
 }
 
 function deleteDigit() {
+  if (!ALLOW_DIGIT_INPUT) return;
   // Remove 1 digit at a time using slice method
   let currentContent = DISPLAY_TEXT.textContent;
   DISPLAY_TEXT.textContent = currentContent.slice(0, -1);
